@@ -17,22 +17,51 @@
   <base href="/ganzhi-nayin-calendar/">
 
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="description" content="六爻 AI 起卦与解读系统。">
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="ganzhi_nayin_calendar">
+  <meta name="apple-mobile-web-app-title" content="六爻 AI">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>ganzhi_nayin_calendar</title>
+  <title>六爻 AI 系统</title>
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
+  <div id="app-loading" role="status" aria-live="polite">
+    <div class="loading-mark">六爻 AI</div>
+    <div id="loading-message">正在载入起卦系统...</div>
+  </div>
+  <style>
+    html, body { margin: 0; min-height: 100%; background: #f4f8fb; }
+    #app-loading {
+      position: fixed; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 14px;
+      color: #16314d; font: 17px -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+      background: linear-gradient(135deg, #e7fafc, #f7fcfe 48%, #f1eeff);
+      z-index: 9999;
+    }
+    .loading-mark { font-weight: 700; font-size: 28px; }
+  </style>
+  <script>
+    window.showFlutterLoadError = function () {
+      document.getElementById('loading-message').textContent = '页面加载失败，请关闭此页后重新打开链接。';
+    };
+    window.removeFlutterLoading = function () {
+      var loading = document.getElementById('app-loading');
+      if (loading) loading.remove();
+    };
+    window.setTimeout(function () {
+      var loading = document.getElementById('app-loading');
+      if (loading) window.showFlutterLoadError();
+    }, 20000);
+  </script>
   <!--
     You can customize the "flutter_bootstrap.js" script.
     This is useful to provide a custom configuration to the Flutter loader
@@ -41,6 +70,6 @@
     For more details:
     * https://docs.flutter.dev/platform-integration/web/initialization
   -->
-  <script src="flutter_bootstrap.js" async></script>
+  <script src="flutter_bootstrap.js?v=20260717-safari-fix" async onerror="window.showFlutterLoadError()"></script>
 </body>
 </html>

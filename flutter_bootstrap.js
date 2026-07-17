@@ -35,8 +35,30 @@ if (!window._flutter) {
 }
 _flutter.buildConfig = {"engineRevision":"83675ed27633283e7fc296c8bca22e841224c096","builds":[{"compileTarget":"dart2js","renderer":"canvaskit","mainJsPath":"main.dart.js"},{}]};
 
+
+// GitHub Pages is a static release channel. Avoid a stale Service Worker
+// mixing an old JavaScript bundle with a new Flutter build on mobile Safari.
+var cacheVersion = "20260717-safari-fix";
+for (var index = 0; index < _flutter.buildConfig.builds.length; index += 1) {
+  var build = _flutter.buildConfig.builds[index];
+  if (build.mainJsPath) {
+    build.mainJsPath += "?v=" + cacheVersion;
+  }
+}
+
 _flutter.loader.load({
-  serviceWorkerSettings: {
-    serviceWorkerVersion: "1827275158" /* Flutter's service worker is deprecated and will be removed in a future Flutter release. */
+  config: {
+    renderer: "canvaskit",
+    canvasKitVariant: "full"
+  },
+  onEntrypointLoaded: async function (engineInitializer) {
+    try {
+      var appRunner = await engineInitializer.initializeEngine();
+      await appRunner.runApp();
+      window.removeFlutterLoading();
+    } catch (error) {
+      console.error(error);
+      window.showFlutterLoadError();
+    }
   }
 });
