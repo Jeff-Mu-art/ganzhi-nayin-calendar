@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f7faf9">
+    <title>六爻资料库</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <aside class="sidebar" aria-label="资料分类">
+        <div class="brand">六爻资料库</div>
+        <nav class="nav-list">
+          <button class="nav-item active" type="button" data-filter="all">检索资料</button>
+          <button class="nav-item" type="button" data-filter="case">案例库</button>
+          <button class="nav-item" type="button" data-filter="rule">古籍规则</button>
+        </nav>
+        <p class="source-note">公开资料本地检索<br>古籍原文与案例分层保存</p>
+      </aside>
+
+      <section class="search-pane" aria-label="检索结果">
+        <form class="search-form" id="search-form">
+          <label class="search-box" for="query">
+            <span aria-hidden="true">⌕</span>
+            <input id="query" name="query" autocomplete="off" placeholder="输入求财、官事、用神等关键词" value="求财">
+          </label>
+          <button class="search-button" type="submit">检索</button>
+        </form>
+        <div class="toolbar">
+          <div class="tabs" aria-label="检索范围">
+            <button class="tab active" type="button" data-filter="all">全部</button>
+            <button class="tab" type="button" data-filter="case">案例</button>
+            <button class="tab" type="button" data-filter="rule">古籍规则</button>
+          </div>
+          <span class="count" id="count">正在载入资料…</span>
+        </div>
+        <div class="results" id="results" aria-live="polite"></div>
+      </section>
+
+      <section class="detail-pane" aria-label="资料详情">
+        <div class="detail-header">
+          <span id="detail-kind">资料</span>
+          <a id="source-link" hidden target="_blank" rel="noreferrer">打开原始来源</a>
+        </div>
+        <article class="detail-content" id="detail-content">
+          <h1>开始检索</h1>
+          <p>输入问题关键词后，选择一条资料查看原文与来源。</p>
+        </article>
+        <section class="prompt-panel">
+          <div class="prompt-heading">
+            <h2>本地模型提示词</h2>
+            <button class="copy-button" id="copy-prompt" type="button">复制</button>
+          </div>
+          <textarea id="question" rows="3" placeholder="写下要结合资料回答的问题，例如：这则求财案例如何判断应期？"></textarea>
+          <pre id="prompt-output">选择资料后，这里会生成带来源摘录的提示词。</pre>
+        </section>
+      </section>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
