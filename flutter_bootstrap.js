@@ -38,7 +38,7 @@ _flutter.buildConfig = {"engineRevision":"83675ed27633283e7fc296c8bca22e841224c0
 
 // GitHub Pages is a static release channel. Avoid a stale Service Worker
 // mixing an old JavaScript bundle with a new Flutter build on mobile Safari.
-var cacheVersion = "20260718-rag-base-href-1";
+var cacheVersion = "20260718-mobile-loader-2";
 for (var index = 0; index < _flutter.buildConfig.builds.length; index += 1) {
   var build = _flutter.buildConfig.builds[index];
   if (build.mainJsPath) {

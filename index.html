@@ -50,7 +50,7 @@
     .loading-mark { font-weight: 700; font-size: 28px; }
   </style>
   <script>
-    var flutterCacheVersion = '20260718-rag-base-href-1';
+    var flutterCacheVersion = '20260718-mobile-loader-2';
     window.showFlutterLoadError = function () {
       document.getElementById('loading-message').textContent = '页面加载失败，请关闭此页后重新打开链接。';
     };
@@ -59,42 +59,19 @@
       if (loading) loading.remove();
     };
     window.setTimeout(function () {
+      var loading = document.getElementById('loading-message');
+      if (loading) loading.textContent = '正在加载资料库，网络较慢时请稍候...';
+    }, 20000);
+    window.setTimeout(function () {
       var loading = document.getElementById('app-loading');
       if (loading) window.showFlutterLoadError();
-    }, 20000);
+    }, 60000);
 
-    window.clearLegacyFlutterCache = function () {
-      if (!('serviceWorker' in navigator) || sessionStorage.getItem('liuyao-sw-cleared')) {
-        return Promise.resolve(false);
-      }
-      return navigator.serviceWorker.getRegistrations().then(function (registrations) {
-        var pageScope = window.location.origin + '/ganzhi-nayin-calendar/';
-        var legacyRegistrations = registrations.filter(function (registration) {
-          return registration.scope.indexOf(pageScope) === 0;
-        });
-        if (legacyRegistrations.length === 0) return false;
-        return Promise.all(legacyRegistrations.map(function (registration) {
-          return registration.unregister();
-        })).then(function () {
-          sessionStorage.setItem('liuyao-sw-cleared', 'true');
-          var url = new URL(window.location.href);
-          url.searchParams.set('v', flutterCacheVersion);
-          window.location.replace(url.toString());
-          return true;
-        });
-      }).catch(function () {
-        return false;
-      });
-    };
-
-    window.clearLegacyFlutterCache().then(function (isReloading) {
-      if (isReloading) return;
-      var script = document.createElement('script');
-      script.src = 'flutter_bootstrap.js?v=' + flutterCacheVersion;
-      script.async = true;
-      script.onerror = window.showFlutterLoadError;
-      document.body.appendChild(script);
-    });
+    var script = document.createElement('script');
+    script.src = 'flutter_bootstrap.js?v=' + flutterCacheVersion;
+    script.async = true;
+    script.onerror = window.showFlutterLoadError;
+    document.body.appendChild(script);
   </script>
   <!--
     You can customize the "flutter_bootstrap.js" script.
