@@ -1,0 +1,548 @@
+:root {
+  --paper: #f6f1e5;
+  --paper-light: #fcfaf4;
+  --ink: #201c18;
+  --muted: #766d63;
+  --line: #d8d0c1;
+  --red: #9e2b26;
+  --red-soft: #c86e62;
+  --weekend: #f1e8db;
+  --shadow: 0 24px 70px rgba(52, 37, 22, 0.14);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  background: #e8e2d7;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 14% 5%, rgba(255, 255, 255, 0.72), transparent 28rem),
+    #e8e2d7;
+  font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font: inherit;
+}
+
+.page-shell {
+  width: min(1400px, 100%);
+  margin: 0 auto;
+  padding: clamp(18px, 4vw, 56px);
+}
+
+.calendar-sheet {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(24px, 4vw, 58px);
+  border: 1px solid rgba(141, 124, 101, 0.2);
+  border-radius: 2px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.45), transparent 44%),
+    var(--paper);
+  box-shadow: var(--shadow);
+}
+
+.calendar-sheet::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--red) 0 12%, var(--red-soft) 12% 20%, transparent 20%);
+  content: "";
+}
+
+.calendar-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: clamp(28px, 4vw, 48px);
+}
+
+.eyebrow,
+.subtitle,
+.calendar-footer p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.eyebrow {
+  margin-bottom: 14px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+}
+
+.title-row {
+  display: flex;
+  align-items: flex-end;
+  gap: clamp(24px, 5vw, 72px);
+}
+
+h1 {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  margin: 0;
+  font-family: "Songti SC", "STSong", "SimSun", serif;
+  font-weight: 500;
+  line-height: 0.92;
+}
+
+h1 span {
+  color: var(--red);
+  font-size: clamp(52px, 7vw, 94px);
+  letter-spacing: 0.04em;
+}
+
+h1 b {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(24px, 3vw, 42px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+
+.pillar-summary {
+  display: flex;
+  gap: 30px;
+  padding-bottom: 8px;
+}
+
+.pillar-summary p {
+  margin: 0;
+}
+
+.pillar-summary span,
+.pillar-summary strong {
+  display: block;
+}
+
+.pillar-summary span {
+  margin-bottom: 4px;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+}
+
+.pillar-summary strong {
+  font-family: "Songti SC", "STSong", "SimSun", serif;
+  font-size: 21px;
+  font-weight: 600;
+}
+
+.subtitle {
+  margin-top: 16px;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+}
+
+.print-button {
+  flex: 0 0 auto;
+  padding: 11px 17px;
+  border: 1px solid rgba(158, 43, 38, 0.48);
+  border-radius: 999px;
+  color: var(--red);
+  background: transparent;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: color 160ms ease, background 160ms ease, transform 160ms ease;
+}
+
+.print-button:hover {
+  color: white;
+  background: var(--red);
+  transform: translateY(-1px);
+}
+
+.print-button:focus-visible {
+  outline: 3px solid rgba(158, 43, 38, 0.25);
+  outline-offset: 3px;
+}
+
+.weekday-row,
+.calendar-grid {
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.weekday-row {
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--line);
+}
+
+.weekday {
+  padding: 14px 8px 12px;
+  color: #554e47;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-align: center;
+}
+
+.weekend-label {
+  color: var(--red);
+}
+
+.calendar-grid {
+  border-left: 1px solid var(--line);
+}
+
+.calendar-day {
+  position: relative;
+  min-width: 0;
+  min-height: clamp(118px, 11vw, 164px);
+  padding: clamp(10px, 1.3vw, 18px);
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.calendar-day.is-weekend {
+  background: color-mix(in srgb, var(--weekend) 56%, transparent);
+}
+
+.calendar-day.is-adjacent {
+  color: #a9a095;
+  background: rgba(224, 216, 203, 0.18);
+}
+
+.calendar-day.is-today {
+  box-shadow: inset 0 0 0 2px var(--red);
+}
+
+.solar-day {
+  display: block;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(22px, 2.3vw, 36px);
+  font-weight: 400;
+  line-height: 1;
+}
+
+.day-event {
+  min-height: 20px;
+  margin: 9px 0 2px;
+  color: var(--red);
+  font-size: clamp(9px, 0.8vw, 12px);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.day-event.is-festival {
+  color: #7c4d34;
+}
+
+.day-meta {
+  position: absolute;
+  right: clamp(8px, 1.2vw, 16px);
+  bottom: clamp(9px, 1.2vw, 15px);
+  left: clamp(8px, 1.2vw, 16px);
+}
+
+.lunar-date,
+.ganzhi-day {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lunar-date {
+  color: #5f574f;
+  font-size: clamp(9px, 0.85vw, 12px);
+}
+
+.ganzhi-day {
+  margin-top: 3px;
+  color: var(--red);
+  font-family: "Songti SC", "STSong", "SimSun", serif;
+  font-size: clamp(10px, 1vw, 14px);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.is-adjacent .lunar-date,
+.is-adjacent .ganzhi-day,
+.is-adjacent .day-event {
+  color: #aaa197;
+}
+
+.calendar-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding-top: 18px;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  color: var(--muted);
+}
+
+.legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--red);
+}
+
+.festival-dot {
+  background: #7c4d34;
+}
+
+.weekend-dot {
+  border: 1px solid #d8c6af;
+  background: var(--weekend);
+}
+
+.calendar-status {
+  margin: 28px 0 0;
+  padding: 14px 16px;
+  border: 1px solid rgba(158, 43, 38, 0.4);
+  color: #74211d;
+  background: rgba(158, 43, 38, 0.06);
+  font-size: 13px;
+}
+
+@media (max-width: 760px) {
+  .page-shell {
+    padding: 0;
+  }
+
+  .calendar-sheet {
+    width: 100%;
+    max-width: 100vw;
+    min-height: 100vh;
+    padding: 22px 10px 28px;
+    border: 0;
+    box-shadow: none;
+  }
+
+  .calendar-header {
+    min-width: 0;
+    align-items: flex-start;
+    margin-bottom: 24px;
+  }
+
+  .title-row {
+    display: block;
+  }
+
+  .title-group {
+    min-width: 0;
+  }
+
+  h1 {
+    gap: 10px;
+  }
+
+  h1 span {
+    font-size: clamp(43px, 15vw, 64px);
+  }
+
+  h1 b {
+    font-size: 24px;
+  }
+
+  .pillar-summary {
+    gap: 20px;
+    margin-top: 14px;
+    padding: 0;
+  }
+
+  .pillar-summary strong {
+    font-size: 17px;
+  }
+
+  .subtitle {
+    display: none;
+  }
+
+  .print-button {
+    padding: 8px 10px;
+    font-size: 0;
+  }
+
+  .print-button span {
+    font-size: 17px;
+  }
+
+  .weekday {
+    padding: 10px 1px 9px;
+    font-size: 9px;
+    letter-spacing: 0;
+  }
+
+  .calendar-day {
+    min-height: 82px;
+    padding: 7px 4px;
+  }
+
+  .solar-day {
+    font-size: 19px;
+  }
+
+  .day-event {
+    min-height: 13px;
+    margin-top: 5px;
+    font-size: 8px;
+  }
+
+  .day-meta {
+    right: 3px;
+    bottom: 6px;
+    left: 3px;
+  }
+
+  .lunar-date {
+    font-size: 8px;
+  }
+
+  .ganzhi-day {
+    margin-top: 1px;
+    font-size: 9px;
+    letter-spacing: 0;
+  }
+
+  .calendar-footer {
+    display: block;
+    padding-top: 14px;
+  }
+
+  .calendar-footer p {
+    display: none;
+  }
+}
+
+@page {
+  size: A4 landscape;
+  margin: 9mm;
+}
+
+@media print {
+  :root {
+    --paper: #fffdf8;
+    --shadow: none;
+  }
+
+  html,
+  body {
+    min-width: 0;
+    min-height: 0;
+    background: white;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .page-shell {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .calendar-sheet {
+    overflow: visible;
+    padding: 4mm 7mm 3mm;
+    border: 0;
+    box-shadow: none;
+  }
+
+  .calendar-header {
+    margin-bottom: 3mm;
+  }
+
+  .eyebrow {
+    margin-bottom: 1mm;
+    font-size: 7pt;
+  }
+
+  h1 span {
+    font-size: 36pt;
+  }
+
+  h1 b {
+    font-size: 18pt;
+  }
+
+  .subtitle {
+    margin-top: 1mm;
+    font-size: 7pt;
+  }
+
+  .pillar-summary {
+    padding-bottom: 1mm;
+  }
+
+  .pillar-summary strong {
+    font-size: 12pt;
+  }
+
+  .print-button {
+    display: none;
+  }
+
+  .weekday {
+    padding: 1.5mm 1mm 1.2mm;
+  }
+
+  .calendar-day {
+    min-height: 21mm;
+    padding: 2mm;
+    break-inside: avoid;
+  }
+
+  .solar-day {
+    font-size: 17pt;
+  }
+
+  .day-event {
+    min-height: 3mm;
+    margin-top: 1mm;
+    font-size: 6.5pt;
+  }
+
+  .day-meta {
+    right: 2mm;
+    bottom: 1.6mm;
+    left: 2mm;
+  }
+
+  .lunar-date {
+    font-size: 6.5pt;
+  }
+
+  .ganzhi-day {
+    margin-top: 0.5mm;
+    font-size: 7.5pt;
+  }
+
+  .calendar-footer {
+    padding-top: 2mm;
+    font-size: 6.5pt;
+  }
+}
